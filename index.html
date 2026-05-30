@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadə Əlaqə Forması</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #006699;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Adınızı Daxil Edin</h2>
+    <input type="text" id="userName" placeholder="Adınız">
+    <br>
+    <button onclick="gonder()">Bota Göndər</button>
+</div>
+
+<script>
+    async function gonder() {
+        const ad = document.getElementById('userName').value;
+        if(!ad) {
+            alert('Zəhmət olmasa ad daxil edin!');
+            return;
+        }
+
+        try {
+            // Termux-da açacağınız serverin ünvanı (Lokal test üçün)
+            const response = await fetch('http://localhost:3000/send-name', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: ad })
+            });
+
+            if(response.ok) {
+                alert('Ad uğurla göndərildi!');
+            } else {
+                alert('Xəta baş verdi.');
+            }
+        } catch (error) {
+            console.error('Xəta:', error);
+            alert('Serverə bağlanmaq mümkün olmadı. Termux-da skriptin işlədiyindən əmin olun.');
+        }
+    }
+</script>
+
+</body>
+</html>
+  
