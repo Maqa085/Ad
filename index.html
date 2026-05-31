@@ -11,6 +11,9 @@
             background: #0b0e14;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
         }
         header {
             display: flex;
@@ -26,14 +29,19 @@
             color: #ff3b30;
         }
         .logo span { color: #0562ff; }
+        nav {
+            display: flex;
+        }
         nav a {
             color: #8c9ba5;
             text-decoration: none;
             margin: 0 15px;
             font-weight: 600;
             font-size: 0.95rem;
+            transition: color 0.2s;
         }
-        nav a.active { color: #0562ff; }
+        nav a.active, nav a:hover { color: #0562ff; }
+        
         .header-right {
             display: flex;
             align-items: center;
@@ -51,18 +59,19 @@
             max-width: 1100px;
             margin: 40px auto;
             padding: 0 20px;
+            box-sizing: border-box;
         }
         .hero {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
         .hero h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
+            font-weight: 800;
         }
-        .hero p { color: #8c9ba5; }
+        .hero p { color: #8c9ba5; font-size: 1.1rem; }
         
-        /* Kampaniya Baneri */
         .promo-banner {
             background: #121824;
             border: 1px solid #222d42;
@@ -72,15 +81,17 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 40px;
+            gap: 15px;
         }
         .promo-btn {
             background: #10b981;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .section-title {
@@ -89,6 +100,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-weight: 700;
         }
 
         /* Operator Kartları */
@@ -102,18 +114,19 @@
             background: #121824;
             border: 2px solid #1f2736;
             border-radius: 16px;
-            padding: 25px;
+            padding: 25px 15px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s, border-color 0.2s;
             position: relative;
         }
         .operator-card.selected {
-            border-color: #6d28d9;
-            background: #16122c;
+            border-color: #0562ff;
+            background: #151f35;
         }
-        .operator-card h3 { margin: 15px 0 5px 0; }
-        .operator-card p { color: #6b7280; font-size: 0.85rem; margin: 0 0 10px 0; }
+        .operator-card h3 { margin: 15px 0 5px 0; font-size: 1.2rem; }
+        .operator-card p { color: #6b7280; font-size: 0.85rem; margin: 0 0 12px 0; }
+        
         .badge {
             background: #1e293b;
             color: #38bdf8;
@@ -126,14 +139,15 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: #6d28d9;
-            width: 20px;
-            height: 20px;
+            background: #0562ff;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
+            color: white;
         }
         .operator-card.selected .check-icon { display: flex; }
 
@@ -158,20 +172,25 @@
             padding: 16px;
             border-radius: 12px;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             outline: none;
+            box-sizing: border-box;
+            letter-spacing: 1px;
         }
         .phone-input-wrapper input:focus { border-color: #0562ff; }
+        
         .error-message {
             color: #ef4444;
-            font-size: 0.9rem;
-            margin-top: 10px;
+            font-size: 0.95rem;
+            margin-top: 12px;
             display: none;
+            font-weight: 500;
         }
 
         /* Balans Paketləri */
         .packages-section {
             display: none;
+            margin-top: 20px;
         }
         .packages-grid {
             display: grid;
@@ -181,8 +200,8 @@
         .package-card {
             background: #121824;
             border: 1px solid #1f2736;
-            border-radius: 12px;
-            padding: 20px 15px;
+            border-radius: 14px;
+            padding: 22px 15px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
@@ -192,11 +211,92 @@
             background: #151f32;
             transform: translateY(-2px);
         }
-        .package-card h4 { margin: 0 0 5px 0; font-size: 1.3rem; }
-        .package-card p { margin: 0; color: #6b7280; font-size: 0.85rem; }
+        .package-card h4 { margin: 0 0 5px 0; font-size: 1.4rem; color: #ffffff; }
+        .package-card p { margin: 0; color: #8c9ba5; font-size: 0.85rem; }
+
+        /* Yüklənmə Ekranı */
+        .loader-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(11, 14, 20, 0.97);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .loader-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #1a2233;
+            border-top: 5px solid #0562ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 📱 MOBİL EKHLAR ÜÇÜN RESPONSİV SƏLİQƏLƏŞDİRMƏ */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 4%;
+            }
+            nav {
+                display: none; /* Mobildə qarışıqlıq yaratmasın deyə menyunu gizlədirik */
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .hero p {
+                font-size: 0.95rem;
+            }
+            .promo-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+            .promo-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .operators-grid {
+                grid-template-columns: 1fr; /* Kartlar alt-alta düzülür kəsişmir */
+                gap: 12px;
+            }
+            .operator-card {
+                display: flex;
+                align-items: center;
+                text-align: left;
+                padding: 15px;
+                gap: 15px;
+            }
+            .operator-card h3 { margin: 0 0 2px 0; font-size: 1.1rem; }
+            .operator-card p { margin: 0 0 5px 0; font-size: 0.8rem; }
+            .check-icon { top: 50%; transform: translateY(-50%); right: 20px; }
+            
+            .packages-grid {
+                grid-template-columns: repeat(2, 1fr); /* Paketlər telefonda səliqəli 2 sütun olur */
+                gap: 10px;
+            }
+            .package-card {
+                padding: 15px 10px;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-title">Ödəməyə Keçilir...</div>
+        <div class="spinner"></div>
+    </div>
 
     <header>
         <div class="logo">Azer<span>Pay</span></div>
@@ -215,13 +315,13 @@
     <div class="container">
         <div class="hero">
             <h1>Azərbaycanın ən sürətli ödəniş platforması</h1>
-            <p>Mobil balansınızı saniyələr ərzində artırın — Azercell, Bakcell, Nar operatorları üçün</p>
+            <p>Mobil balansınızı saniyələr ərzində artırın</p>
         </div>
 
         <div class="promo-banner">
             <div>
-                <h4 style="margin:0 0 5px 0;">İlk ödəniş bonusu!</h4>
-                <p style="margin:0; color:#8c9ba5; font-size:0.9rem;">"WELCOME5" promo kodu ilə ilk ödənişinizdə 5 AZN endirim qazanın.</p>
+                <h4 style="margin:0 0 5px 0; font-size: 1.1rem;">İlk ödəniş bonusu!</h4>
+                <p style="margin:0; color:#8c9ba5; font-size:0.9rem;">"WELCOME5" kodu ilə ilk ödənişinizdə 5 AZN qazanın.</p>
             </div>
             <button class="promo-btn">İstifadə et</button>
         </div>
@@ -231,36 +331,42 @@
             <div class="operator-card" data-operator="Azercell" onclick="selectOperator(this)">
                 <div class="check-icon">✓</div>
                 <div style="font-size:2rem; color:#a855f7;">α</div>
-                <h3>Azercell</h3>
-                <p>Premium mobil operator</p>
-                <span class="badge">5G ULTRA</span>
+                <div>
+                    <h3>Azercell</h3>
+                    <p>Premium mobil operator</p>
+                    <span class="badge">5G ULTRA</span>
+                </div>
             </div>
             <div class="operator-card" data-operator="Bakcell" onclick="selectOperator(this)">
                 <div class="check-icon">✓</div>
                 <div style="font-size:2rem; color:#ef4444;">🔴</div>
-                <h3>Bakcell</h3>
-                <p>Etibarlı və sürətli</p>
-                <span class="badge" style="color:#f43f5e;">4.5G PRO</span>
+                <div>
+                    <h3>Bakcell</h3>
+                    <p>Etibarlı və sürətli</p>
+                    <span class="badge" style="color:#f43f5e;">4.5G PRO</span>
+                </div>
             </div>
             <div class="operator-card" data-operator="Nar" onclick="selectOperator(this)">
                 <div class="check-icon">✓</div>
                 <div style="font-size:2rem; color:#f43f5e;">n</div>
-                <h3>Nar Mobile</h3>
-                <p>İqtisadi seçim</p>
-                <span class="badge" style="color:#f43f5e;">4G+ İQTİSADİ</span>
+                <div>
+                    <h3>Nar Mobile</h3>
+                    <p>İqtisadi seçim</p>
+                    <span class="badge" style="color:#f43f5e;">4G+ İQTİSADİ</span>
+                </div>
             </div>
         </div>
 
         <div class="phone-section">
-            <div style="font-weight: 600;">Mobil nömrəni daxil edin</div>
+            <div style="font-weight: 600; font-size: 1.05rem;">Mobil nömrəni daxil edin</div>
             <div class="phone-input-wrapper">
-                <input type="text" id="phoneNumber" placeholder="(050) 000-00-00" maxlength="15">
+                <input type="text" id="phoneNumber" placeholder="(050) 000-00-00" inputmode="tel" maxlength="15">
             </div>
             <div class="error-message" id="phoneError">Bu nömrə seçilmiş operatora aid deyil!</div>
         </div>
 
         <div class="packages-section" id="packagesSection">
-            <div class="section-title" id="packageTitle">Azercell üçün balans paketi seçin</div>
+            <div class="section-title" id="packageTitle">Balans paketi seçin</div>
             <div class="packages-grid">
                 <div class="package-card" onclick="goToPayment(5)"><h4>₼ 5</h4><p>+5 AZN balans</p></div>
                 <div class="package-card" onclick="goToPayment(10)"><h4>₼ 10</h4><p>+10 AZN balans</p></div>
@@ -268,7 +374,7 @@
                 <div class="package-card" onclick="goToPayment(20)"><h4>₼ 20</h4><p>+20 AZN balans</p></div>
                 <div class="package-card" onclick="goToPayment(25)"><h4>₼ 25</h4><p>+25 AZN balans</p></div>
                 <div class="package-card" onclick="goToPayment(30)"><h4>₼ 30</h4><p>+30 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(40)"><h4>₼ 40</h4><p>+40 AZN balans</p></div>
+                <div class="package-card" onclick="onclick=goToPayment(40)"><h4>₼ 40</h4><p>+40 AZN balans</p></div>
                 <div class="package-card" onclick="goToPayment(50)"><h4>₼ 50</h4><p>+50 AZN balans</p></div>
                 <div class="package-card" onclick="goToPayment(75)"><h4>₼ 75</h4><p>+75 AZN balans</p></div>
                 <div class="package-card" onclick="goToPayment(100)"><h4>₼ 100</h4><p>+100 AZN balans</p></div>
@@ -282,8 +388,8 @@
         const phoneError = document.getElementById('phoneError');
         const packagesSection = document.getElementById('packagesSection');
         const packageTitle = document.getElementById('packageTitle');
+        const loaderOverlay = document.getElementById('loaderOverlay');
 
-        // Operator Prefiksləri Verilənlər Bazası
         const prefixes = {
             "Azercell": ["050", "051", "010"],
             "Bakcell": ["055", "099"],
@@ -298,7 +404,6 @@
             validatePhone();
         }
 
-        // Nömrə maskası və təmizlənməsi
         phoneInput.addEventListener('input', (e) => {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '') + (x[4] ? '-' + x[4] : '');
@@ -330,13 +435,16 @@
         }
 
         function goToPayment(amount) {
-            // Məlumatları növbəti səhifəyə ötürmək üçün LocalStorage-ə qeyd edirik
+            loaderOverlay.style.display = "flex";
             localStorage.setItem('selectedOperator', selectedOperator);
             localStorage.setItem('phoneNumber', phoneInput.value);
             localStorage.setItem('paymentAmount', amount);
             
-            window.location.href = 'payment.html';
+            setTimeout(() => {
+                window.location.href = 'payment.html';
+            }, 4000);
         }
     </script>
 </body>
-</html>
+                                    </html>
+    
