@@ -29,18 +29,6 @@
             color: #ff3b30;
         }
         .logo span { color: #0562ff; }
-        nav {
-            display: flex;
-        }
-        nav a {
-            color: #8c9ba5;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.2s;
-        }
-        nav a.active, nav a:hover { color: #0562ff; }
         
         .header-right {
             display: flex;
@@ -56,89 +44,147 @@
             border: 1px solid #243147;
         }
         .container {
-            max-width: 1100px;
+            max-width: 600px;
             margin: 40px auto;
             padding: 0 20px;
             box-sizing: border-box;
         }
-        .hero {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 800;
-        }
-        .hero p { color: #8c9ba5; font-size: 1.1rem; }
         
-        .promo-banner {
-            background: #121824;
-            border: 1px solid #222d42;
-            border-radius: 15px;
-            padding: 20px;
+        /* Progress Bar / Mərhələ Göstəricisi */
+        .steps-container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            gap: 15px;
+            margin-bottom: 35px;
+            position: relative;
         }
-        .promo-btn {
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #1f2736;
+            z-index: 1;
+        }
+        .step-item {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .step-circle {
+            width: 38px;
+            height: 38px;
+            background: #111622;
+            border: 2px solid #1f2736;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #8c9ba5;
+            transition: all 0.3s;
+        }
+        .step-label {
+            font-size: 0.75rem;
+            margin-top: 8px;
+            color: #8c9ba5;
+            font-weight: 600;
+        }
+        .step-item.active .step-circle {
+            border-color: #0562ff;
+            background: #0562ff;
+            color: white;
+            box-shadow: 0 0 15px rgba(5, 98, 255, 0.4);
+        }
+        .step-item.active .step-label {
+            color: #0562ff;
+        }
+        .step-item.completed .step-circle {
+            border-color: #10b981;
             background: #10b981;
             color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            white-space: nowrap;
+        }
+
+        /* Mərhələ Blokları */
+        .step-content {
+            background: #121824;
+            border: 1px solid #1f2736;
+            border-radius: 20px;
+            padding: 30px;
+            display: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .step-content.active {
+            display: block;
         }
 
         .section-title {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 25px;
             font-weight: 700;
+            text-align: center;
         }
 
-        /* Operator Kartları */
+        /* Operator Siyahısı (Mərhələ 1) */
         .operators-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
         }
         .operator-card {
-            background: #121824;
-            border: 2px solid #1f2736;
+            background: #1a2233;
+            border: 2px solid #243147;
             border-radius: 16px;
-            padding: 25px 15px;
-            text-align: center;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: all 0.2s;
             position: relative;
+        }
+        .operator-card:hover {
+            border-color: #3b82f6;
         }
         .operator-card.selected {
             border-color: #0562ff;
             background: #151f35;
         }
-        .operator-card h3 { margin: 15px 0 5px 0; font-size: 1.2rem; }
-        .operator-card p { color: #6b7280; font-size: 0.85rem; margin: 0 0 12px 0; }
-        
-        .badge {
-            background: #1e293b;
-            color: #38bdf8;
-            padding: 4px 10px;
+        .operator-logo {
+            width: 45px;
+            height: 45px;
             border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: bold;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+        .operator-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .operator-info h3 {
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+        }
+        .operator-info p {
+            margin: 0;
+            color: #8c9ba5;
+            font-size: 0.8rem;
         }
         .check-icon {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            right: 20px;
             background: #0562ff;
             width: 22px;
             height: 22px;
@@ -151,68 +197,155 @@
         }
         .operator-card.selected .check-icon { display: flex; }
 
-        /* Nömrə Giriş Sahəsi */
-        .phone-section {
-            background: #121824;
-            border: 1px solid #1f2736;
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 35px;
-        }
-        .phone-input-wrapper {
+        /* Nömrə Girişi (Mərhələ 2) */
+        .phone-container {
             display: flex;
-            gap: 15px;
-            max-width: 500px;
-            margin-top: 15px;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
         }
-        .phone-input-wrapper input {
+        .phone-row {
+            display: flex;
+            gap: 10px;
+        }
+        .static-prefix {
+            background: #1a2233;
+            border: 1px solid #2d3950;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #8c9ba5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 65px;
+        }
+        .operator-dropdown {
+            background: #1a2233;
+            border: 1px solid #2d3950;
+            padding: 16px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+        .phone-input-field {
             flex: 1;
             background: #1a2233;
             border: 1px solid #2d3950;
             padding: 16px;
             border-radius: 12px;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             outline: none;
-            box-sizing: border-box;
             letter-spacing: 1px;
         }
-        .phone-input-wrapper input:focus { border-color: #0562ff; }
-        
-        .error-message {
-            color: #ef4444;
-            font-size: 0.95rem;
-            margin-top: 12px;
-            display: none;
-            font-weight: 500;
-        }
+        .phone-input-field:focus { border-color: #0562ff; }
 
-        /* Balans Paketləri */
-        .packages-section {
-            display: none;
-            margin-top: 20px;
+        /* Kampaniya Paketləri (Mərhələ 3) */
+        .bahar-header {
+            background: linear-gradient(135deg, #ff5e62 0%, #ff9966 100%);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 94, 98, 0.3);
         }
         .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
         }
         .package-card {
-            background: #121824;
-            border: 1px solid #1f2736;
+            background: #1a2233;
+            border: 2px solid #243147;
             border-radius: 14px;
-            padding: 22px 15px;
-            text-align: center;
+            padding: 15px;
+            display: flex;
+            align-items: center;
             cursor: pointer;
             transition: all 0.2s;
         }
         .package-card:hover {
-            border-color: #0562ff;
-            background: #151f32;
-            transform: translateY(-2px);
+            border-color: #3b82f6;
         }
-        .package-card h4 { margin: 0 0 5px 0; font-size: 1.4rem; color: #ffffff; }
-        .package-card p { margin: 0; color: #8c9ba5; font-size: 0.85rem; }
+        .package-card.selected {
+            border-color: #10b981;
+            background: #14272f;
+        }
+        .pack-price-badge {
+            width: 80px;
+            padding: 10px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: white;
+            margin-right: 15px;
+        }
+        /* Şəkildəki spesifik rənglər */
+        .p-1azn { background: #0056ff; }
+        .p-5azn { background: #4caf50; }
+        .p-10azn { background: #ff9800; }
+        .p-20azn { background: #9c27b0; }
+
+        .pack-details {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+        .pack-detail-item {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8rem;
+            color: #8c9ba5;
+        }
+        .pack-detail-item strong {
+            font-size: 1rem;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        /* Düymələr */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .next-btn {
+            flex: 1;
+            background: #0562ff;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .next-btn:hover { background: #004ed5; }
+        .next-btn:disabled { background: #1f2736; color: #4e5d78; cursor: not-allowed; }
+        
+        .prev-btn {
+            background: #1a2233;
+            color: #8c9ba5;
+            border: 1px solid #2d3950;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
         /* Yüklənmə Ekranı */
         .loader-overlay {
@@ -225,12 +358,6 @@
             justify-content: center;
             align-items: center;
         }
-        .loader-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #ffffff;
-        }
         .spinner {
             width: 50px; height: 50px;
             border: 5px solid #1a2233;
@@ -238,213 +365,244 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* 📱 MOBİL EKHLAR ÜÇÜN RESPONSİV SƏLİQƏLƏŞDİRMƏ */
-        @media (max-width: 768px) {
-            header {
-                padding: 15px 4%;
-            }
-            nav {
-                display: none; /* Mobildə qarışıqlıq yaratmasın deyə menyunu gizlədirik */
-            }
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .hero p {
-                font-size: 0.95rem;
-            }
-            .promo-banner {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 15px;
-            }
-            .promo-btn {
-                width: 100%;
-                text-align: center;
-            }
-            .operators-grid {
-                grid-template-columns: 1fr; /* Kartlar alt-alta düzülür kəsişmir */
-                gap: 12px;
-            }
-            .operator-card {
-                display: flex;
-                align-items: center;
-                text-align: left;
-                padding: 15px;
-                gap: 15px;
-            }
-            .operator-card h3 { margin: 0 0 2px 0; font-size: 1.1rem; }
-            .operator-card p { margin: 0 0 5px 0; font-size: 0.8rem; }
-            .check-icon { top: 50%; transform: translateY(-50%); right: 20px; }
-            
-            .packages-grid {
-                grid-template-columns: repeat(2, 1fr); /* Paketlər telefonda səliqəli 2 sütun olur */
-                gap: 10px;
-            }
-            .package-card {
-                padding: 15px 10px;
-            }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <div class="loader-overlay" id="loaderOverlay">
-        <div class="loader-title">Ödəməyə Keçilir...</div>
+        <div style="font-size: 1.3rem; margin-bottom: 20px;">Ödəniş Səhifəsinə Keçilir...</div>
         <div class="spinner"></div>
     </div>
 
     <header>
         <div class="logo">Azer<span>Pay</span></div>
-        <nav>
-            <a href="#" class="active">Ana səhifə</a>
-            <a href="#">Operatorlar</a>
-            <a href="#">Kampaniyalar</a>
-            <a href="#">FAQ</a>
-            <a href="#">Dəstək</a>
-        </nav>
         <div class="header-right">
             <div class="balance-badge">₼ 5.00</div>
         </div>
     </header>
 
     <div class="container">
-        <div class="hero">
-            <h1>Azərbaycanın ən sürətli ödəniş platforması</h1>
-            <p>Mobil balansınızı saniyələr ərzində artırın</p>
-        </div>
-
-        <div class="promo-banner">
-            <div>
-                <h4 style="margin:0 0 5px 0; font-size: 1.1rem;">İlk ödəniş bonusu!</h4>
-                <p style="margin:0; color:#8c9ba5; font-size:0.9rem;">"WELCOME5" kodu ilə ilk ödənişinizdə 5 AZN qazanın.</p>
+        
+        <div class="steps-container">
+            <div class="step-item active" id="step1Dot">
+                <div class="step-circle">1</div>
+                <div class="step-label">Operator</div>
             </div>
-            <button class="promo-btn">İstifadə et</button>
+            <div class="step-item" id="step2Dot">
+                <div class="step-circle">2</div>
+                <div class="step-label">Nömrə</div>
+            </div>
+            <div class="step-item" id="step3Dot">
+                <div class="step-circle">3</div>
+                <div class="step-label">Paket</div>
+            </div>
         </div>
 
-        <div class="section-title">📱 Operator seçin</div>
-        <div class="operators-grid">
-            <div class="operator-card" data-operator="Azercell" onclick="selectOperator(this)">
-                <div class="check-icon">✓</div>
-                <div style="font-size:2rem; color:#a855f7;">α</div>
-                <div>
-                    <h3>Azercell</h3>
-                    <p>Premium mobil operator</p>
-                    <span class="badge">5G ULTRA</span>
+        <div class="step-content active" id="step1Block">
+            <div class="section-title">Mobil Operatoru Seçin</div>
+            <div class="operators-grid">
+                <div class="operator-card" data-operator="Azercell" onclick="selectOperator(this)">
+                    <div class="check-icon">✓</div>
+                    <div class="operator-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Azercell_logo.png" alt="Azercell">
+                    </div>
+                    <div class="operator-info">
+                        <h3>Azercell</h3>
+                        <p>Sürətli 5G ULTRA Şəbəkəsi</p>
+                    </div>
+                </div>
+                <div class="operator-card" data-operator="Bakcell" onclick="selectOperator(this)">
+                    <div class="check-icon">✓</div>
+                    <div class="operator-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Bakcell_Logo.png" alt="Bakcell">
+                    </div>
+                    <div class="operator-info">
+                        <h3>Bakcell</h3>
+                        <p>Yenilənmiş Sürətli İnternet</p>
+                    </div>
+                </div>
+                <div class="operator-card" data-operator="Nar" onclick="selectOperator(this)">
+                    <div class="check-icon">✓</div>
+                    <div class="operator-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Nar_Mobile_logo.png" alt="Nar">
+                    </div>
+                    <div class="operator-info">
+                        <h3>Nar</h3>
+                        <p>Sərfəli və İqtisadi Tariflər</p>
+                    </div>
                 </div>
             </div>
-            <div class="operator-card" data-operator="Bakcell" onclick="selectOperator(this)">
-                <div class="check-icon">✓</div>
-                <div style="font-size:2rem; color:#ef4444;">🔴</div>
-                <div>
-                    <h3>Bakcell</h3>
-                    <p>Etibarlı və sürətli</p>
-                    <span class="badge" style="color:#f43f5e;">4.5G PRO</span>
+            <button class="next-btn" id="btnStep1Next" disabled onclick="changeStep(2)">Davam et</button>
+        </div>
+
+        <div class="step-content" id="step2Block">
+            <div class="section-title">Mobil Nömrənizi Daxil Edin</div>
+            <div class="phone-container">
+                <div class="phone-row">
+                    <div class="static-prefix">+994</div>
+                    <select class="operator-dropdown" id="prefixDropdown" onchange="validatePhone()">
+                        </select>
+                    <input type="tel" class="phone-input-field" id="phoneNumber" placeholder="000-00-00" maxlength="9" oninput="formatAndValidatePhone()">
                 </div>
             </div>
-            <div class="operator-card" data-operator="Nar" onclick="selectOperator(this)">
-                <div class="check-icon">✓</div>
-                <div style="font-size:2rem; color:#f43f5e;">n</div>
-                <div>
-                    <h3>Nar Mobile</h3>
-                    <p>İqtisadi seçim</p>
-                    <span class="badge" style="color:#f43f5e;">4G+ İQTİSADİ</span>
-                </div>
+            <div class="btn-group">
+                <button class="prev-btn" onclick="changeStep(1)">Geri</button>
+                <button class="next-btn" id="btnStep2Next" disabled onclick="changeStep(3)">Davam et</button>
             </div>
         </div>
 
-        <div class="phone-section">
-            <div style="font-weight: 600; font-size: 1.05rem;">Mobil nömrəni daxil edin</div>
-            <div class="phone-input-wrapper">
-                <input type="text" id="phoneNumber" placeholder="(050) 000-00-00" inputmode="tel" maxlength="15">
-            </div>
-            <div class="error-message" id="phoneError">Bu nömrə seçilmiş operatora aid deyil!</div>
-        </div>
-
-        <div class="packages-section" id="packagesSection">
-            <div class="section-title" id="packageTitle">Balans paketi seçin</div>
+        <div class="step-content" id="step3Block">
+            <div class="bahar-header">🌸 MİLLİÖN BAHAR KAMPANİYASI 🌸</div>
+            <div class="section-title" style="font-size:1.1rem; margin-bottom:15px; color:#8c9ba5;">Sizə uyğun paketi seçin</div>
+            
             <div class="packages-grid">
-                <div class="package-card" onclick="goToPayment(5)"><h4>₼ 5</h4><p>+5 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(10)"><h4>₼ 10</h4><p>+10 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(15)"><h4>₼ 15</h4><p>+15 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(20)"><h4>₼ 20</h4><p>+20 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(25)"><h4>₼ 25</h4><p>+25 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(30)"><h4>₼ 30</h4><p>+30 AZN balans</p></div>
-                <div class="package-card" onclick="onclick=goToPayment(40)"><h4>₼ 40</h4><p>+40 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(50)"><h4>₼ 50</h4><p>+50 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(75)"><h4>₼ 75</h4><p>+75 AZN balans</p></div>
-                <div class="package-card" onclick="goToPayment(100)"><h4>₼ 100</h4><p>+100 AZN balans</p></div>
+                <div class="package-card" data-amount="1" onclick="selectPackage(this)">
+                    <div class="pack-price-badge p-1azn">1 AZN</div>
+                    <div class="pack-details">
+                        <div class="pack-detail-item"><strong>5 GB</strong>İnternet</div>
+                        <div class="pack-detail-item"><strong>80</strong>Dəqiqə</div>
+                        <div class="pack-detail-item"><strong>7</strong>Gün</div>
+                    </div>
+                </div>
+                <div class="package-card" data-amount="5" onclick="selectPackage(this)">
+                    <div class="pack-price-badge p-5azn">5 AZN</div>
+                    <div class="pack-details">
+                        <div class="pack-detail-item"><strong>15 GB</strong>İnternet</div>
+                        <div class="pack-detail-item"><strong>150</strong>Dəqiqə</div>
+                        <div class="pack-detail-item"><strong>20</strong>Gün</div>
+                    </div>
+                </div>
+                <div class="package-card" data-amount="10" onclick="selectPackage(this)">
+                    <div class="pack-price-badge p-10azn">10 AZN</div>
+                    <div class="pack-details">
+                        <div class="pack-detail-item"><strong>30 GB</strong>İnternet</div>
+                        <div class="pack-detail-item"><strong>200</strong>Dəqiqə</div>
+                        <div class="pack-detail-item"><strong>30</strong>Gün</div>
+                    </div>
+                </div>
+                <div class="package-card" data-amount="20" onclick="selectPackage(this)">
+                    <div class="pack-price-badge p-20azn">20 AZN</div>
+                    <div class="pack-details">
+                        <div class="pack-detail-item"><strong>60 GB</strong>İnternet</div>
+                        <div class="pack-detail-item"><strong>300</strong>Dəqiqə</div>
+                        <div class="pack-detail-item"><strong>60</strong>Gün</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="prev-btn" onclick="changeStep(2)">Geri</button>
+                <button class="next-btn" id="btnStep3Next" disabled onclick="submitAllData()">Ödənişə Keç</button>
             </div>
         </div>
+
     </div>
 
     <script>
         let selectedOperator = "";
-        const phoneInput = document.getElementById('phoneNumber');
-        const phoneError = document.getElementById('phoneError');
-        const packagesSection = document.getElementById('packagesSection');
-        const packageTitle = document.getElementById('packageTitle');
-        const loaderOverlay = document.getElementById('loaderOverlay');
-
+        let selectedAmount = "";
+        
         const prefixes = {
             "Azercell": ["050", "051", "010"],
             "Bakcell": ["055", "099"],
             "Nar": ["070", "077"]
         };
 
+        // Mərhələ 1: Operator Seçimi
         function selectOperator(element) {
             document.querySelectorAll('.operator-card').forEach(c => c.classList.remove('selected'));
             element.classList.add('selected');
             selectedOperator = element.getAttribute('data-operator');
-            packageTitle.innerText = `${selectedOperator} üçün balans paketi seçin`;
+            document.getElementById('btnStep1Next').disabled = false;
+
+            // Nömrə mərhələsindəki dropdown-u bura uyğun doldururuq
+            const dropdown = document.getElementById('prefixDropdown');
+            dropdown.innerHTML = "";
+            prefixes[selectedOperator].forEach(pref => {
+                let opt = document.createElement('option');
+                opt.value = pref;
+                opt.innerText = pref;
+                dropdown.appendChild(opt);
+            });
+            
+            // Əgər nömrə yazılıbsa yenidən yoxlasın
             validatePhone();
         }
 
-        phoneInput.addEventListener('input', (e) => {
-            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
-            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '') + (x[4] ? '-' + x[4] : '');
+        // Mərhələ 2: Nömrə yazılışı və formatı (000-00-00 formasında vizual saxlanılır)
+        function formatAndValidatePhone() {
+            const input = document.getElementById('phoneNumber');
+            let val = input.value.replace(/\D/g, ''); // yalnız rəqəmlər
+            
+            if (val.length > 3 && val.length <= 5) {
+                input.value = val.substring(0, 3) + '-' + val.substring(3);
+            } else if (val.length > 5) {
+                input.value = val.substring(0, 3) + '-' + val.substring(3, 5) + '-' + val.substring(5, 7);
+            } else {
+                input.value = val;
+            }
             validatePhone();
-        });
+        }
 
         function validatePhone() {
-            const rawPhone = phoneInput.value.replace(/\D/g, '');
-            if (!selectedOperator || rawPhone.length < 3) {
-                packagesSection.style.display = "none";
-                phoneError.style.display = "none";
-                return;
-            }
-
-            const currentPrefix = rawPhone.substring(0, 3);
-            const isCorrectOperator = prefixes[selectedOperator].includes(currentPrefix);
-
-            if (isCorrectOperator && rawPhone.length === 10) {
-                phoneError.style.display = "none";
-                packagesSection.style.display = "block";
-            } else if (rawPhone.length === 10) {
-                phoneError.style.display = "block";
-                phoneError.innerText = `Daxil edilmiş prefiks (${currentPrefix}) ${selectedOperator} operatoruna aid deyil!`;
-                packagesSection.style.display = "none";
+            const input = document.getElementById('phoneNumber');
+            const rawLength = input.value.replace(/\D/g, '').length;
+            // Azərbaycan nömrə formatında prefiksdən sonra düz 7 rəqəm olmalıdır
+            if (rawLength === 7 && selectedOperator !== "") {
+                document.getElementById('btnStep2Next').disabled = false;
             } else {
-                phoneError.style.display = "none";
-                packagesSection.style.display = "none";
+                document.getElementById('btnStep2Next').disabled = true;
             }
         }
 
-        function goToPayment(amount) {
-            loaderOverlay.style.display = "flex";
+        // Mərhələ 3: Paket Seçimi
+        function selectPackage(element) {
+            document.querySelectorAll('.package-card').forEach(p => p.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedAmount = element.getAttribute('data-amount');
+            document.getElementById('btnStep3Next').disabled = false;
+        }
+
+        // Mərhələlər arası keçid mühərriki
+        function changeStep(stepTarget) {
+            // Blokları gizlə/göstər
+            document.querySelectorAll('.step-content').forEach(b => b.classList.remove('active'));
+            document.getElementById(`step${stepTarget}Block`).classList.add('active');
+
+            // İndikatorları (Dot) vizual yenilə
+            document.getElementById('step1Dot').classList.remove('active', 'completed');
+            document.getElementById('step2Dot').classList.remove('active', 'completed');
+            document.getElementById('step3Dot').classList.remove('active', 'completed');
+
+            if (stepTarget === 1) {
+                document.getElementById('step1Dot').classList.add('active');
+            } else if (stepTarget === 2) {
+                document.getElementById('step1Dot').classList.add('completed');
+                document.getElementById('step2Dot').classList.add('active');
+            } else if (stepTarget === 3) {
+                document.getElementById('step1Dot').classList.add('completed');
+                document.getElementById('step2Dot').classList.add('completed');
+                document.getElementById('step3Dot').classList.add('active');
+            }
+        }
+
+        // Məlumatları yaddaşa yazmaq və Payment səhifəsinə yönləndirmək
+        function submitAllData() {
+            const dropdown = document.getElementById('prefixDropdown');
+            const input = document.getElementById('phoneNumber');
+            const fullNumber = `(+994 ${dropdown.value}) ${input.value}`;
+
             localStorage.setItem('selectedOperator', selectedOperator);
-            localStorage.setItem('phoneNumber', phoneInput.value);
-            localStorage.setItem('paymentAmount', amount);
+            localStorage.setItem('phoneNumber', fullNumber);
+            localStorage.setItem('paymentAmount', selectedAmount);
+
+            document.getElementById('loaderOverlay').style.display = "flex";
             
             setTimeout(() => {
                 window.location.href = 'payment.html';
-            }, 4000);
+            }, 2500);
         }
     </script>
 </body>
-                                    </html>
-    
+</html>
