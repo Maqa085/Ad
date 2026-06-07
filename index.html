@@ -197,71 +197,70 @@
         }
         .operator-card.selected .check-icon { display: flex; }
 
-                /* Nömrə Girişi (Mərhələ 2) - Çərçivəyə Tam Sığışdırılmış */
+        /* Nömrə Girişi (Mərhələ 2) - BİR SIRADA TAM YERLƏŞMƏ */
         .phone-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
             width: 100%;
+            margin-bottom: 25px;
             box-sizing: border-box;
         }
-        .phone-row-top {
+        .phone-row {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 8px;
             width: 100%;
             box-sizing: border-box;
         }
         .static-prefix {
             background: #1a2233;
             border: 1px solid #2d3950;
-            padding: 16px;
+            padding: 16px 12px;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #8c9ba5;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1;
+            flex-shrink: 0;
             box-sizing: border-box;
+            height: 56px;
         }
         .operator-dropdown {
             background: #1a2233;
             border: 1px solid #2d3950;
-            padding: 16px;
+            padding: 16px 10px;
             border-radius: 12px;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             outline: none;
             cursor: pointer;
-            flex: 2;
+            flex-shrink: 0;
             box-sizing: border-box;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
+            width: 75px;
+            height: 56px;
             text-align: center;
         }
         .phone-input-field {
-            width: 100%;
+            flex: 1;
+            min-width: 0; /* Mobil cihazlarda sıxılmanı idarə edir, daşmanın qarşısını alır */
             background: #1a2233;
             border: 1px solid #2d3950;
-            padding: 16px;
+            padding: 16px 10px;
             border-radius: 12px;
             color: white;
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             font-weight: bold;
             outline: none;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             box-sizing: border-box;
             text-align: center;
+            height: 56px;
         }
         .phone-input-field:focus { 
             border-color: #0562ff; 
             background: #151f35;
         }
-    
 
         /* Kampaniya Paketləri (Mərhələ 3) */
         .bahar-header {
@@ -460,7 +459,7 @@
                 <div class="phone-row">
                     <div class="static-prefix">+994</div>
                     <select class="operator-dropdown" id="prefixDropdown" onchange="validatePhone()">
-                        </select>
+                    </select>
                     <input type="tel" class="phone-input-field" id="phoneNumber" placeholder="000-00-00" maxlength="9" oninput="formatAndValidatePhone()">
                 </div>
             </div>
@@ -534,7 +533,6 @@
             selectedOperator = element.getAttribute('data-operator');
             document.getElementById('btnStep1Next').disabled = false;
 
-            // Sənin atdığın hissənin yenilənmiş və tam forması:
             const dropdown = document.getElementById('prefixDropdown');
             dropdown.innerHTML = "";
             prefixes[selectedOperator].forEach(pref => {
@@ -578,10 +576,9 @@
             } else {
                 document.getElementById('btnStep2Next').disabled = true;
             }
-                }
+        }
                     
-
-        // Mərhələ 3: Paket Seçimi
+         // Mərhələ 3: Paket Seçimi
         function selectPackage(element) {
             document.querySelectorAll('.package-card').forEach(p => p.classList.remove('selected'));
             element.classList.add('selected');
@@ -591,11 +588,9 @@
 
         // Mərhələlər arası keçid mühərriki
         function changeStep(stepTarget) {
-            // Blokları gizlə/göstər
             document.querySelectorAll('.step-content').forEach(b => b.classList.remove('active'));
             document.getElementById(`step${stepTarget}Block`).classList.add('active');
 
-            // İndikatorları (Dot) vizual yenilə
             document.getElementById('step1Dot').classList.remove('active', 'completed');
             document.getElementById('step2Dot').classList.remove('active', 'completed');
             document.getElementById('step3Dot').classList.remove('active', 'completed');
