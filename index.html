@@ -1,45 +1,4 @@
-<!DOCTYPE html>
-<html lang="az">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AzerPay - Ana Səhifə</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0b0e14;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            position: relative;
-            min-height: 100vh;
-            -webkit-tap-highlight-color: transparent;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 6%;
-            background: #111622;
-            border-bottom: 1px solid #1f2736;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #ff3b30;
-        }
-        .logo span { color: #0562ff; }
-        
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .balance-badge {
-            background: #1a2233;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
+bold;
             color: #0562ff;
             border: 1px solid #243147;
         }
@@ -197,16 +156,20 @@
         }
         .operator-card.selected .check-icon { display: flex; }
 
-        /* Nömrə Girişi (Mərhələ 2) */
+                /* Nömrə Girişi (Mərhələ 2) - Çərçivəyə Tam Sığışdırılmış */
         .phone-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 25px;
+            width: 100%;
+            box-sizing: border-box;
         }
-        .phone-row {
+        .phone-row-top {
             display: flex;
             gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .static-prefix {
             background: #1a2233;
@@ -219,7 +182,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 65px;
+            flex: 1;
+            box-sizing: border-box;
         }
         .operator-dropdown {
             background: #1a2233;
@@ -231,19 +195,32 @@
             font-weight: 600;
             outline: none;
             cursor: pointer;
+            flex: 2;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            text-align: center;
         }
         .phone-input-field {
-            flex: 1;
+            width: 100%;
             background: #1a2233;
             border: 1px solid #2d3950;
             padding: 16px;
             border-radius: 12px;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
+            font-weight: bold;
             outline: none;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            box-sizing: border-box;
+            text-align: center;
         }
-        .phone-input-field:focus { border-color: #0562ff; }
+        .phone-input-field:focus { 
+            border-color: #0562ff; 
+            background: #151f35;
+        }
+    
 
         /* Kampaniya Paketləri (Mərhələ 3) */
         .bahar-header {
@@ -516,7 +493,7 @@
             selectedOperator = element.getAttribute('data-operator');
             document.getElementById('btnStep1Next').disabled = false;
 
-            // Nömrə mərhələsindəki dropdown-u bura uyğun doldururuq
+            // Sənin atdığın hissənin yenilənmiş və tam forması:
             const dropdown = document.getElementById('prefixDropdown');
             dropdown.innerHTML = "";
             prefixes[selectedOperator].forEach(pref => {
@@ -526,35 +503,42 @@
                 dropdown.appendChild(opt);
             });
             
-            // Əgər nömrə yazılıbsa yenidən yoxlasın
             validatePhone();
         }
 
-        // Mərhələ 2: Nömrə yazılışı və formatı (000-00-00 formasında vizual saxlanılır)
+        // Mərhələ 2: Nömrə yazılışı və formatı (Yeni çərçivəyə tam uyğunlaşdırılmış)
         function formatAndValidatePhone() {
             const input = document.getElementById('phoneNumber');
-            let val = input.value.replace(/\D/g, ''); // yalnız rəqəmlər
+            let val = input.value.replace(/\D/g, ''); // Sırf rəqəmləri saxlayırıq
             
+            if (val.length > 7) {
+                val = val.substring(0, 7);
+            }
+
+            // 000-00-00 formatında çərçivəyə tam sığacaq şəkildə bölürük
             if (val.length > 3 && val.length <= 5) {
                 input.value = val.substring(0, 3) + '-' + val.substring(3);
             } else if (val.length > 5) {
-                input.value = val.substring(0, 3) + '-' + val.substring(3, 5) + '-' + val.substring(5, 7);
+                input.value = val.substring(0, 3) + '-' + val.substring(3, 5) + '-' + val.substring(5);
             } else {
                 input.value = val;
             }
+            
             validatePhone();
         }
 
         function validatePhone() {
             const input = document.getElementById('phoneNumber');
             const rawLength = input.value.replace(/\D/g, '').length;
-            // Azərbaycan nömrə formatında prefiksdən sonra düz 7 rəqəm olmalıdır
+            
+            // Tam 7 rəqəm yazıldıqda və operator seçildikdə "Davam et" aktivləşir
             if (rawLength === 7 && selectedOperator !== "") {
                 document.getElementById('btnStep2Next').disabled = false;
             } else {
                 document.getElementById('btnStep2Next').disabled = true;
             }
-        }
+                }
+                    
 
         // Mərhələ 3: Paket Seçimi
         function selectPackage(element) {
